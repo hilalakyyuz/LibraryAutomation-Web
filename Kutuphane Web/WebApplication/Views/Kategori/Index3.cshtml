@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index3";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcılar</title>
+    <link rel="stylesheet" href="~/Web/css/Detay.css">
+</head>
+<body>
+    <div class="containerr">
+        <h1>Kategoriler</h1>
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Ad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" placeholder=""></td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="add-btn" class="add-btn">Kaydet</button>
+    </div>
+    <script>
+         document.getElementById("add-btn").addEventListener("click", function() {
+            window.location.href = "@Url.Action("Index", "Kategori")";
+        });
+    </script>
+
+</body>
+</html>
+
+
+

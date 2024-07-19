@@ -1,0 +1,79 @@
+﻿@model PagedList.IPagedList<WebApplication.Kullanici>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcılar</title>
+    <link rel="stylesheet" href="~/Web/css/kullanici .css">
+</head>
+<body>
+    <div class="containerr">
+        <h1>Kullanıcılar</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Resim</th>
+                    <th>ID</th>
+                    <th>Ad Soyad</th>
+                    <th>Email</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var kullanici in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (kullanici.Resim != null && kullanici.Resim.Length > 0)
+                            {
+                                var base64String = Convert.ToBase64String(kullanici.Resim);
+                                <img src="data:image/png;base64,@base64String" alt="Resim">
+                            }
+                            else
+                            {
+                                <div style="width: 70px; height: 80px; border: 1px solid #ccc;"></div>
+                            }
+                        </td>
+                        <td>@kullanici.ID</td>
+                        <td>@kullanici.AdSoyad</td>
+                        <td>@kullanici.Email</td>
+                        <td>
+                            <button id="edit-btn" onclick="duzenleme(@kullanici.ID)" class="edit-btn" data-id="@kullanici.ID">Düzenle</button>
+                            <button class="delete-btn" data-id="@kullanici.ID">Sil</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button id="add-btn" class="add-btn">Ekle</button>
+    </div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions())
+    <script>
+       document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var kullaniciId = this.getAttribute('data-id');
+                if (confirm('Bu kullaniciyi silmek istediğinize emin misiniz?')) {
+                    window.location.href = "@Url.Action("Delete", "Kullanici")/" + kullaniciId;
+                }
+            });
+        });
+
+            function duzenleme(kullaniciId) {
+                window.location.href = "@Url.Action("Index2", "Kullanici")/" + kullaniciId;
+            }
+
+
+
+        document.querySelector('.add-btn').addEventListener('click', function() {
+            window.location.href = "@Url.Action("Index2", "Kullanici")/"+0;
+        });
+    </script>
+</body>
+</html>

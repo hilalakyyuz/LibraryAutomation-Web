@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    background-image: url(../img/anasayfa.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+
+.menu {
+    width: 200px; 
+    background-color: #ffb6c1; 
+    position: fixed;  
+    top: 0;
+    margin:0;
+    left: 0;
+    max-height:300px;
+    overflow-y: auto; 
+}
+
+.menu-content {
+    padding: 20px;
+}
+
+.menu-item {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.menu-item img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.container {
+    margin-top:40px;
+    max-width: 180px;
+    max-height: 100vh;
+    margin-left: 0; 
+    padding: 20px;
+    position: relative;  
+    background-color: #ffe6f0;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color: black;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #ffb6c1;
+    font-size: 16px;
+    padding: 10px 15px; 
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    max-width: 150px; 
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+.button i {
+    margin-right: 5px;
+}
+
+.button:hover {
+    background-color: #ff69b4; 
+}

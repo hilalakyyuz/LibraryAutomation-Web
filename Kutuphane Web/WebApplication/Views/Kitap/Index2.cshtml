@@ -1,0 +1,102 @@
+﻿@model Kitap
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitaplar</title>
+    <link rel="stylesheet" href="~/Web/css/Detay - Copy.css">
+</head>
+<body>
+    <form id="kitapForm" method="post" action="@{
+        if (Model.ID == 0) {
+            @Url.Action("Add", "Kitap")
+        } else {
+            @Url.Action("Edit", "Kitap", new { id = Model.ID })
+        }
+    }">
+        <div class="containerr">
+            <h1>Kitaplar</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ad</th>
+                        <th>Kategori</th>
+                        <th>Yazar</th>
+                        <th>Yayın Yılı</th>
+                        <th>Sayfa Sayısı</th>
+                        <th>Fiyat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input name="Ad" value="@Model.Ad" type="text"></td>
+                        <td>
+                            <select name="KategoriID">
+                                <option value=""></option>
+
+                                @foreach (var kategori in ViewBag.KategoriListesi)
+                                {
+
+                                    if (Model.KategoriID == kategori.ID)
+                                    {
+                                        <option selected value="@kategori.ID">@kategori.Adi</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@kategori.ID">@kategori.Adi</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select name="YazarID" value="@Model.Adyazar">
+                                <option value=""></option>
+
+                                @foreach (var yazar in ViewBag.YazarListesi)
+                                {
+                                    if (Model.YazarID == yazar.ID)
+                                    {
+                                        <option selected value="@yazar.ID">@yazar.Ad</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@yazar.ID">@yazar.Ad</option>
+
+                                    }
+                                }
+                            </select>
+
+                        </td>
+                        <td><input name="YayinYili" value="@Model.YayinYili" type="text"></td>
+                        <td><input name="SayfaSayisi" value="@Model.SayfaSayisi" type="text"></td>
+                        <td><input name="Fiyat" value="@Model.Fiyat" type="text"></td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="add-btn">Kaydet</button>
+        </div>
+    </form>
+    <script>
+    document.getElementById('kitapForm').addEventListener('submit', function (event) {
+        var Ad = document.getElementsByName('Ad')[0].value.trim();
+        if (Ad === '') {
+            alert('Lütfen kitap adı alanını doldurunuz.');
+            event.preventDefault();
+        }
+    });
+    document.getElementById("add-btn").addEventListener("click", function() {
+        window.location.href = "@Url.Action("Index", "Kitap")";
+    });
+    </script>
+
+</body>
+</html>
+

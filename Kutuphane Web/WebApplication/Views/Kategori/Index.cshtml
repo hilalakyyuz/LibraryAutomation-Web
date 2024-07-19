@@ -1,0 +1,65 @@
+﻿@model PagedList.IPagedList<WebApplication.Kategori>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategoriler</title>
+    <link rel="stylesheet" href="~/Web/css/Kategori.css">
+</head>
+<body>
+    <div class="containerr">
+        <h1>Kategoriler</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ad</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var kategori in Model)
+                {
+                    <tr>
+                        <td>@kategori.ID</td>
+                        <td>@kategori.Adi</td>
+                        <td>
+                            <button id="edit-btn" onclick="duzenleme(@kategori.ID)" class="edit-btn" data-id="@kategori.ID">Düzenle</button>
+                            <button class="delete-btn" data-id="@kategori.ID">Sil</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button id="add-btn" class="add-btn">Ekle</button>
+    </div>
+    @*@Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions())*@
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var kategoriId = this.getAttribute('data-id');
+                window.location.href = "@Url.Action("Delete", "Kategori")/" +kategoriId;
+
+            });
+        });
+
+
+        function duzenleme(kategoriid) {
+            window.location.href = "@Url.Action("Index2", "Kategori")/" + kategoriid;
+        }
+
+
+
+        document.getElementById("add-btn").addEventListener("click", function() {
+            window.location.href = "@Url.Action("Index2", "Kategori")/"+0;
+        });
+    </script>
+</body>
+</html>

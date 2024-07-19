@@ -1,0 +1,93 @@
+﻿@model List<Kitap>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitaplar</title>
+    <link rel="stylesheet" href="~/Web/css/kitap.css">
+</head>
+<body>
+    <div class="containerr">
+        <h1>Kitaplar</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ad</th>
+                    <th>Kategori Adı</th>
+                    <th>Yazar</th>
+                    <th>Yayın Yılı</th>
+                    <th>Sayfa Sayısı</th>
+                    <th>Fiyat</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var kitap in Model)
+                {
+                    <tr>
+                        <td>@kitap.ID</td>
+                        <td>@kitap.Ad</td>
+                        <td>@kitap.Adi</td>
+                        <td>@kitap.Adyazar</td>
+                        <td>@kitap.YayinYili</td>
+                        <td>@kitap.SayfaSayisi</td>
+                        <td>@kitap.Fiyat</td>
+                        <td>
+                            <button id="edit-btn" onclick="duzenleme(@kitap.ID)" class="edit-btn" data-id="@kitap.ID">Düzenle</button>
+                            <button class="delete-btn" data-id="@kitap.ID">Sil</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button id="add-btn" class="add-btn">Ekle</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function () {
+                var kitapId = this.getAttribute('data-id');
+                var url = '@Url.Action("Delete", "Kitap")';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: { id: kitapId  },
+                    success: function (result) {
+                        if (result == "Silme işlemi başarılı") {
+                            window.location.href = "@Url.Action("Index", "Kitap")";
+                        }
+                        else {
+                            var jsonResponse = JSON.parse(result); // JSON yanıtını JavaScript nesnesine dönüştür
+
+                            if (jsonResponse.Message === "Bu kitap ödünç alınmış durumda olduğu için silinemez.") {
+                                alert('Bu kitap ödünç alındığı için silinemez.');
+                                event.preventDefault();
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+
+
+                    }
+                });
+
+
+            });
+        });
+        function duzenleme(kitapId) {
+              window.location.href = "@Url.Action("Index2", "Kitap")/" + kitapId;
+            }
+
+        document.querySelector('.add-btn').addEventListener('click', function() {
+         window.location.href = "@Url.Action("Index2", "Kitap")/"+0;
+        });
+    </script>
+</body>
+</html>

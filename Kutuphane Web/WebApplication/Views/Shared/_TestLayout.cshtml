@@ -1,0 +1,65 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Web/css/home.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>_TestLayout</title>
+</head>
+<body>
+  
+        <div class="container">
+            <h2>ANA SAYFA</h2>
+            <div class="button-container">
+
+                <a href="#" onclick="kullaniciAc()" class="button">
+                    <i class="fas fa-home"><img style="width:40px; height:40px;" src="~/Web/img/Iconkullanici.png" /></i>
+                    Kullanıcılar
+                </a>
+
+                <a href="#" onclick="kitapAc()" class="button"><i class="fas fa-user"><img style="width:40px; height:40px;" src="~/Web/img/Iconbooks.png" /></i>Kitaplar</a>
+
+                <a href="#" onclick="yazarAc()" class="button"><i class="fas fa-envelope"><img style="width:40px; height:40px;" src="~/Web/img/IconYazar.png" /></i>Yazarlar</a>
+
+                <a href="#" onclick="kategoriAc()" class="button"><i class="fas fa-user"><img style="width:40px; height:40px;" src="~/Web/img/Iconcategories.png" /></i>   Kategoriler</a>
+
+                <a href="#" onclick="oduncAc()" class="button"><i class="fas fa-envelope"><img style="width:40px; height:40px;" src="~/Web/img/IconOdunc.png" /></i>Ödünç İşlem</a>
+            </div>
+        </div>
+        @RenderBody()
+   
+    <script>
+   
+    if ("@ViewBag.ResultMessage" === "Basarili") { 
+       
+        alert("Giriş başarılı!");
+
+        window.location.href = "@Url.Action("index", "Home")"; 
+        }
+        function kullaniciAc() {
+            window.location.href = "@Url.Action("Index", "Kullanici")";
+        }
+         function kategoriAc() {
+             window.location.href = "@Url.Action("Index", "Kategori")";
+        }
+         function kitapAc() {
+            window.location.href = "@Url.Action("Index", "Kitap")";
+        }
+         function oduncAc() {
+             window.location.href = "@Url.Action("Index", "Odunc")";
+        }
+         function yazarAc() {
+            window.location.href = "@Url.Action("Index", "Yazar")";
+        }
+    </script>
+
+
+
+</body>
+</html>

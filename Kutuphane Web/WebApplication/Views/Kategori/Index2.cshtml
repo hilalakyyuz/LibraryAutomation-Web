@@ -1,0 +1,53 @@
+﻿@model Kategori
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategoriler</title>
+    <link rel="stylesheet" href="~/Web/css/KategoriDetay.css">
+</head>
+<body>
+    <form id="kategoriForm" method="post" action="@{
+        if (Model.ID == 0) {
+            @Url.Action("Add", "Kategori")
+        } else {
+            @Url.Action("Edit", "Kategori", new { id = Model.ID })
+        }
+    }">
+        <div class="containerr">
+            <h1>Kategoriler</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input name="Adi" type="text" value="@Model.Adi"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="add-btn">Kaydet</button>
+        </div>
+    </form>
+    <script>
+        document.getElementById('kategoriForm').addEventListener('submit', function (event) {
+            var Adi = document.getElementsByName('Adi')[0].value.trim();
+            if (Adi === '') {
+                alert('Lütfen kategori adı alanını doldurunuz.');
+                event.preventDefault();
+            }
+        });
+     
+        document.getElementById("add-btn").addEventListener("click", function() {
+            window.location.href = "@Url.Action("Index", "Kategori")";
+        });
+    </script>
+</body>
+</html>

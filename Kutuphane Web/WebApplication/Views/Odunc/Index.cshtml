@@ -1,0 +1,105 @@
+﻿@model List<Odunc>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcılar</title>
+    <link rel="stylesheet" href="~/Web/css/odunc_.css">
+</head>
+<body>
+    <div class="containerr">
+        <h1>Ödünç İşlem</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Kitap</th>
+                    <th>Kullanıcı</th>
+                    <th>Alış Tarihi</th>
+                    <th>Teslim Tarihi</th>
+                    <th>Teslim Durumu</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var odunc in Model)
+                {
+                    <tr>
+
+                        <td>@odunc.ID</td>
+                        <td>@odunc.KitapAdi</td>
+                        <td>@odunc.KullaniciAdi</td>
+                        <td>@(odunc.AlisTarihi.HasValue ? odunc.AlisTarihi.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@(odunc.TeslimTarihi.HasValue ? odunc.TeslimTarihi.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>
+                            @if (odunc.TeslimDurumu.HasValue && odunc.TeslimDurumu.Value)
+                            {
+                                <input name="TeslimDurumu" value="true" type="checkbox" checked>
+                            }
+                            else
+                            {
+                                <input name="TeslimDurumu" value="false" type="checkbox">
+                            }
+                        </td>
+                        <td>
+                            <button id="edit-btn" onclick="duzenleme(@odunc.ID)" class="edit-btn" data-id="@odunc.ID">Düzenle</button>
+                            <button class="delete-btn" data-id="@odunc.ID">Sil</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button id="add-btn" class="add-btn">Ekle</button>
+    </div>
+    <script>
+       var mevcutSayfa = 1;
+        var yukleniyor = false;
+
+        window.addEventListener('scroll', function() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !yukleniyor) {
+                dahaFazlaVeriYukle();
+            }
+        });
+
+        function dahaFazlaVeriYukle() {
+            yukleniyor = true;
+            mevcutSayfa++;
+
+            setTimeout(function() {
+                fetch('@Url.Action("LoadMore", "Odunc")?sayfa=' + mevcutSayfa)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('oduncList').innerHTML += data;
+                        yukleniyor = false;
+                    })
+                    .catch(error => {
+                        console.error('Hata:', error);
+                        yukleniyor = false;
+                    });
+            }, 10000); 
+        }
+       document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var oduncId = this.getAttribute('data-id');
+                window.location.href = "@Url.Action("Delete", "Odunc")/" +oduncId;
+
+            });
+        });
+
+        function duzenleme(oduncId) {
+            window.location.href = "@Url.Action("Index2", "Odunc")/" + oduncId;
+            }
+        document.getElementById("add-btn").addEventListener("click", function() {
+            window.location.href = "@Url.Action("Index2", "Odunc")/"+0;
+        });
+    </script>
+</body>
+</html>
+
+
+

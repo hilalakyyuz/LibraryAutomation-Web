@@ -1,0 +1,103 @@
+﻿@model Odunc
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödünç</title>
+    <link rel="stylesheet" href="~/Web/css/Detay - Copy.css">
+</head>
+<body>
+    <form id="oduncForm" method="post" action="@{
+        if (Model.ID == 0) {
+            @Url.Action("Add", "Odunc")
+        } else {
+            @Url.Action("Edit", "Odunc", new { id = Model.ID })
+        }
+    }">
+        <div class="containerr">
+            <h1>Ödünç İşlem</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kitap Adı</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Alış Tarihi</th>
+                        <th>Teslim Tarihi</th>
+                        <th>Teslim Durumu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select name="KitapID" value="@Model.KitapID">
+                                <option value=""></option>
+                                @foreach (var kitap in ViewBag.KitapListesi)
+                                {
+
+                                    if (Model.KitapID == kitap.ID)
+                                    {
+                                        <option selected value="@kitap.ID">@kitap.Ad</option>
+                                    }
+                                    else
+                                    {
+                                        <option  value="@kitap.ID">@kitap.Ad</option>
+                                    }
+                                }
+                            </select>
+
+                        </td>
+                        <td>
+                            <select name="KullaniciID" value="@Model.KullaniciID">
+                                <option value=""></option>
+                                @foreach (var kullanici in ViewBag.KullaniciListesi)
+                                {
+                                  
+                                    if (Model.KullaniciID == kullanici.ID)
+                                    {
+                                        <option selected value="@kullanici.ID">@kullanici.AdSoyad</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@kullanici.ID">@kullanici.AdSoyad</option>
+                                    }
+                                }
+                            </select>
+
+                        </td>
+                        <td><input name="AlisTarihi" value="@Model.AlisTarihi" type="date"></td>
+                        <td><input name="TeslimTarihi" value="@Model.TeslimTarihi" type="date"></td>
+                        <td>
+                            @if (Model.TeslimDurumu.HasValue && Model.TeslimDurumu.Value)
+                            {
+                                <input name="TeslimDurumu" value="false" type="checkbox" checked>
+                            }
+                            else
+                            {
+                                <input name="TeslimDurumu" value="true" type="checkbox">
+                            }
+                        </td>
+
+
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="add-btn">Kaydet</button>
+        </div>
+    </form>
+    <script>
+         document.getElementById("add-btn").addEventListener("click", function() {
+            window.location.href = "@Url.Action("Index", "Odunc")";
+        });
+    </script>
+</body>
+</html>
+
+

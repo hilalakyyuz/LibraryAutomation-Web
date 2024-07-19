@@ -1,0 +1,95 @@
+﻿@model Kullanici
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_TestLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcılar</title>
+    <link rel="stylesheet" href="~/Web/css/Kullanicidetay.css">
+</head>
+<body>
+    <form id="kullaniciForm" method="post" enctype="multipart/form-data" action="@{
+        if (Model.ID == 0) {
+            @Url.Action("Add", "Kullanici")
+        } else {
+            @Url.Action("Edit", "Kullanici", new { id = Model.ID })
+        }
+    }">
+        <div class="containerr">
+            <h1>Kullanıcılar</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Resim</th>
+                        <th>Ad Soyad</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="resim-td">
+                            <label for="uploadfile" class="custom-file-upload">
+                                <i class="fas fa-cloud-upload-alt"></i> Resim Yükle
+                            </label>
+                            <input type="file" name="uploadfile" id="uploadfile" onchange="resimEkle()" style="display: none;">
+                            <div class="resim-cerceve">
+                                @if (Model.Resim != null && Model.Resim.Length > 0)
+                                {
+                                    var base64String = Convert.ToBase64String(Model.Resim);
+                                    <img class="resim" src="data:image/png;base64,@base64String" alt="Resim">
+                                }
+                                else
+                                {
+                                    <div class="resim-placeholder"></div>
+                                }
+                            </div>
+
+                        </td>
+                        <td><input name="AdSoyad" type="text" value="@Model.AdSoyad"></td>
+                        <td><input name="Email" type="text" value="@Model.Email"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="add-btn">Kaydet</button>
+        </div>
+    </form>
+    <script>
+        document.getElementById('kullaniciForm').addEventListener('submit', function (event) {
+            var adSoyad = document.getElementsByName('AdSoyad')[0].value.trim();
+            var email = document.getElementsByName('Email')[0].value.trim();
+
+            if (adSoyad === '') {
+                alert('Lütfen ad soyad alanını doldurunuz.');
+                event.preventDefault();
+            }
+
+            if (email === '') {
+                alert('Lütfen e-posta alanını doldurunuz.');
+                event.preventDefault();
+            }
+        });
+        function resimEkle() {
+            var dosyaInput = document.getElementById('uploadfile');
+            var resimCerceve = document.querySelector('.resim-cerceve');
+            var dosya = dosyaInput.files[0];
+            var dosyaOkuyucu = new FileReader();
+
+            dosyaOkuyucu.onload = function (e) {
+                var resim = document.createElement('img');
+                resim.src = e.target.result;
+                resim.alt = 'Resim';
+                resim.classList.add('resim');
+                resimCerceve.innerHTML = ''; 
+                resimCerceve.appendChild(resim); 
+            }
+
+            dosyaOkuyucu.readAsDataURL(dosya);
+        }
+
+    </script>
+</body>
+</html>

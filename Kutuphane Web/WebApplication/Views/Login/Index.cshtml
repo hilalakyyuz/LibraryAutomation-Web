@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+        
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kütüphane Otomasyonu Giriş Sayfası</title>
+    <link rel="stylesheet" href="~/Web/css/giris.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="header">
+            <h2>~ Kütüphane ~</h2>
+        </div>
+        <form action="@Url.Action("Index", "Login")" method="post">
+            <div class="form-input">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-input">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-checkbox">
+                <label>
+                    <input type="checkbox" name="remember"> Beni Hatırla
+                </label>
+            </div>
+            <div class="form-submit">
+                <button type="submit">Giriş Yap</button>
+            </div>
+        </form>
+        <div class="result-message">
+            @ViewBag.ResultMessage
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+
